@@ -1,0 +1,25 @@
+version: "3"
+
+volumes:
+  petdb_volume:
+
+services:
+ pet-cont:
+   build: .
+   restart: always
+   ports:
+    - "8099:8090"
+   depends_on:
+     - db
+
+ db:
+   image: postgres:14
+   ports:
+     - "5433:5432"
+   environment:
+     - POSTGRES_DB=additional-service
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=root
+   volumes:
+     - petdb_volume:/var/lib/postgresql/data
+   restart: always
